@@ -28,10 +28,11 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public Optional<CourseResponse> getCourseById(Long id) {
-        return Optional.ofNullable(courseRepository.findById(id)
-                .map(mapStruct::toCourseResponse)
-                .orElseThrow(EntityNotFoundException::new));
+    public CourseResponse getCourseById(Long id) {
+        Course course = courseRepository.findById(id)
+                .orElseThrow(EntityNotFoundException::new);
+
+        return mapStruct.toCourseResponse(course);
     }
 
     @Override
