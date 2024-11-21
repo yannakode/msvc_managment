@@ -1,12 +1,12 @@
 package com.microservice.courses.service.impl;
 
+import com.microservice.courses.exceptions.CourseNotFoundException;
 import com.microservice.courses.model.Course;
 import com.microservice.courses.model.dtos.CourseRequest;
 import com.microservice.courses.model.dtos.CourseResponse;
 import com.microservice.courses.repository.CourseRepository;
 import com.microservice.courses.service.CourseService;
 import com.microservice.courses.service.assembler.CourseDtoAssembler;
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -29,7 +29,7 @@ public class CourseServiceImpl implements CourseService {
     @Override
     public CourseResponse getCourseById(Long id) {
         Course course = courseRepository.findById(id)
-                .orElseThrow(EntityNotFoundException::new);
+                .orElseThrow(() -> new CourseNotFoundException(id));
 
         return mapper.toDto(course);
     }
@@ -47,7 +47,7 @@ public class CourseServiceImpl implements CourseService {
     @Override
     public CourseResponse update(Long id, CourseRequest courseRequest) {
         Course course = courseRepository.findById(id)
-                .orElseThrow(EntityNotFoundException::new);
+                .orElseThrow(()-> new CourseNotFoundException(id));
 
             course.setName(courseRequest.getName());
             return mapper.toDto(course);
@@ -57,6 +57,6 @@ public class CourseServiceImpl implements CourseService {
     public void delete(Long id) {
         courseRepository.findById(id)
                 .ifPresentOrElse(c -> courseRepository.deleteById(id),
-                        EntityNotFoundException::new);
+                        ()-> new CourseNotFoundException(id));
     }
 }
