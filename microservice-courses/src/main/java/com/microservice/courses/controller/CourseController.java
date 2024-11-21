@@ -3,6 +3,7 @@ package com.microservice.courses.controller;
 import com.microservice.courses.model.dtos.CourseRequest;
 import com.microservice.courses.model.dtos.CourseResponse;
 import com.microservice.courses.service.CourseService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -30,16 +31,17 @@ public class CourseController {
     }
 
     @PostMapping
-    public ResponseEntity<CourseResponse> createCourse(@RequestBody CourseRequest courseRequest){
+    public ResponseEntity<CourseResponse> createCourse(@RequestBody @Valid CourseRequest courseRequest){
+        System.out.println(courseRequest.getName());
         return ResponseEntity.status(HttpStatus.CREATED).body(courseService.create(courseRequest));
     }
 
-    @PostMapping
+    @PutMapping("/{id}")
     public ResponseEntity<CourseResponse> updateCourse(@RequestBody Long id, CourseRequest courseRequest){
         return ResponseEntity.status(HttpStatus.CREATED).body(courseService.update(id, courseRequest));
     }
 
-    @DeleteMapping
+    @DeleteMapping("/{id}")
     public ResponseEntity<Void> updateCourse(@RequestBody Long id){
         courseService.delete(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();

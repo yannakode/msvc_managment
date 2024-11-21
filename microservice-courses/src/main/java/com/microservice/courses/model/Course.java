@@ -21,6 +21,6 @@ public class Course {
     private Long id;
 
     @NotBlank(message = "name field cannot be empty")
-    @Size(min = 1, max = 10)
+    @Size(min = 1, max = 50)
     private String name;
 }

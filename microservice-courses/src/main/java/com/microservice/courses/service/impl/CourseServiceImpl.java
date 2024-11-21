@@ -5,25 +5,24 @@ import com.microservice.courses.model.dtos.CourseRequest;
 import com.microservice.courses.model.dtos.CourseResponse;
 import com.microservice.courses.repository.CourseRepository;
 import com.microservice.courses.service.CourseService;
-import com.microservice.courses.service.assembler.MapStruct;
+import com.microservice.courses.service.assembler.CourseDtoAssembler;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 public class CourseServiceImpl implements CourseService {
 
     private final CourseRepository courseRepository;
-    private final MapStruct mapStruct;
+    private final CourseDtoAssembler mapper;
 
     @Override
     public List<CourseResponse> getAll() {
         return courseRepository.findAll().stream()
-                .map(mapStruct::toCourseResponse)
+                .map(mapper::toDto)
                 .toList();
     }
 
@@ -32,13 +31,17 @@ public class CourseServiceImpl implements CourseService {
         Course course = courseRepository.findById(id)
                 .orElseThrow(EntityNotFoundException::new);
 
-        return mapStruct.toCourseResponse(course);
+        return mapper.toDto(course);
     }
 
     @Override
     public CourseResponse create(CourseRequest courseRequest) {
-        Course savedCourse = courseRepository.save(mapStruct.toCourse(courseRequest));
-        return mapStruct.toCourseResponse(savedCourse);
+
+        Course course = mapper.toEntity(courseRequest);
+
+        Course savedCourse = courseRepository.save(course);
+
+        return mapper.toDto(savedCourse);
     }
 
     @Override
@@ -46,8 +49,8 @@ public class CourseServiceImpl implements CourseService {
         Course course = courseRepository.findById(id)
                 .orElseThrow(EntityNotFoundException::new);
 
-            course.setName(courseRequest.name());
-            return mapStruct.toCourseResponse(course);
+            course.setName(courseRequest.getName());
+            return mapper.toDto(course);
     }
 
     @Override

@@ -9,3 +9,15 @@ spring:
       discovery:
         locator:
           enabled: true
+      routes:
+        - id: students
+          uri: 'http://localhost:2070'
+          predicates:
+            - Path=/api/student/**
+        - id: courses
+          uri: 'http://localhost:8092'
+          predicates:
+            - Path=/api/course/**
+eureka:
+  client:
+    register-with-eureka: false

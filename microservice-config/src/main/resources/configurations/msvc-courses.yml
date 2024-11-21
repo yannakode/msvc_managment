@@ -7,11 +7,13 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/coursesdb
     username: root
+    password: 8633
   jpa:
     hibernate:
-      ddl-auto: create
-    database: mysql
+      ddl-auto: update
     database-platform: org.hibernate.dialect.MySQL8Dialect
+    properties:
+      hibernate.jdbc.lob.non_contextual_creation: true
 
 eureka:
   instance:
