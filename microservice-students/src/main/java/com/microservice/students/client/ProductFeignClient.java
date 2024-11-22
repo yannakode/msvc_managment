@@ -21,8 +21,8 @@ public interface ProductFeignClient {
     public ResponseEntity<Course> createCourse(@RequestBody @Valid Course course);
 
     @PutMapping("/{id}")
-    public ResponseEntity<Course> updateCourse(@RequestBody Long id, Course course);
+    public ResponseEntity<Course> updateCourse(@PathVariable Long id, @RequestBody Course course);
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> updateCourse(@RequestBody Long id);
+    public ResponseEntity<Void> deleteCourse(@PathVariable Long id);
 }

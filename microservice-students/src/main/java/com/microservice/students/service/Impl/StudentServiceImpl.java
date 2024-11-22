@@ -2,13 +2,14 @@ package com.microservice.students.service.Impl;
 
 import com.microservice.students.client.ProductFeignClient;
 import com.microservice.students.exceptions.StudentNotFoundException;
+import com.microservice.students.model.Course;
 import com.microservice.students.model.Student;
 import com.microservice.students.model.dtos.StudentRequest;
 import com.microservice.students.model.dtos.StudentResponse;
+import com.microservice.students.model.dtos.StudentsByCourseResponse;
 import com.microservice.students.repository.StudentRepository;
 import com.microservice.students.service.StudentService;
 import com.microservice.students.service.assembler.StudentDtoAssembler;
-import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,11 +21,12 @@ public class StudentServiceImpl implements StudentService {
 
     private final StudentDtoAssembler mapper;
 
-    //private final ProductFeignClient productFeignClient;
+    private final ProductFeignClient productFeignClient;
 
-    public StudentServiceImpl(StudentRepository studentRepository, StudentDtoAssembler mapper) {
+    public StudentServiceImpl(StudentRepository studentRepository, StudentDtoAssembler mapper, ProductFeignClient productFeignClient) {
         this.studentRepository = studentRepository;
         this.mapper = mapper;
+        this.productFeignClient = productFeignClient;
     }
 
     @Override
@@ -68,5 +70,19 @@ public class StudentServiceImpl implements StudentService {
                         ()-> {
                             throw new StudentNotFoundException(id);
                         });
+    }
+
+    @Override
+    public StudentsByCourseResponse studentsByCourse(Long courseId) {
+        Course course = productFeignClient.getCourseById(courseId).getBody();
+        List<StudentResponse> studentsByCourseId = studentRepository.findByCourseId(courseId.toString()).stream()
+                .map(mapper::toDto)
+                .toList();
+
+        if(studentsByCourseId.isEmpty()) throw new StudentNotFoundException(courseId);
+        StudentsByCourseResponse studentsByCourseResponse = new StudentsByCourseResponse();
+        studentsByCourseResponse.setCourse(course);
+        studentsByCourseResponse.setStudentResponse(studentsByCourseId);
+        return studentsByCourseResponse;
     }
 }

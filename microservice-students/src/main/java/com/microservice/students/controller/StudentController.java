@@ -2,6 +2,7 @@ package com.microservice.students.controller;
 
 import com.microservice.students.model.dtos.StudentRequest;
 import com.microservice.students.model.dtos.StudentResponse;
+import com.microservice.students.model.dtos.StudentsByCourseResponse;
 import com.microservice.students.service.StudentService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -44,5 +45,10 @@ public class StudentController {
     public ResponseEntity<StudentResponse> deleteStudent(@PathVariable Long id){
         studentService.delete(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+
+    @GetMapping("/courses/{id}")
+    public ResponseEntity<StudentsByCourseResponse> getStudentsByCourse(@PathVariable Long id){
+        return ResponseEntity.status(HttpStatus.OK).body(studentService.studentsByCourse(id));
     }
 }

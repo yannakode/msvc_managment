@@ -3,20 +3,15 @@ package com.microservice.students.model.dtos;
 import com.microservice.students.model.Course;
 import lombok.*;
 
+import java.util.List;
+
 @Getter
 @Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class StudentResponse {
+public class StudentsByCourseResponse {
+    private Course course;
 
-    private String name;
-
-    private String lastName;
-
-    private String age;
-
-    private String email;
-
-    private String courseId;
+    private List<StudentResponse> studentResponse;
 }
