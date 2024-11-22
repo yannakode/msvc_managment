@@ -1,5 +1,0 @@
-spring:
-  application:
-    name: msvc-students
-  config:
-    import: optional:configserver:http://localhost:8888

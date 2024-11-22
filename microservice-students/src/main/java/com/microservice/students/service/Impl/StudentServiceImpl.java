@@ -1,5 +1,8 @@
 package com.microservice.students.service.Impl;
 
+import com.microservice.students.client.ProductFeignClient;
+import com.microservice.students.exceptions.StudentNotFoundException;
+import com.microservice.students.model.Student;
 import com.microservice.students.model.dtos.StudentRequest;
 import com.microservice.students.model.dtos.StudentResponse;
 import com.microservice.students.repository.StudentRepository;
@@ -9,14 +12,15 @@ import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class StudentServiceImpl implements StudentService {
 
     private final StudentRepository studentRepository;
 
-    private StudentDtoAssembler mapper;
+    private final StudentDtoAssembler mapper;
+
+    //private final ProductFeignClient productFeignClient;
 
     public StudentServiceImpl(StudentRepository studentRepository, StudentDtoAssembler mapper) {
         this.studentRepository = studentRepository;
@@ -26,31 +30,43 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public List<StudentResponse> getAll() {
         return studentRepository.findAll().stream()
-                .map(student -> mapper.toDto(student))
+                .map(mapper::toDto)
                 .toList();
     }
 
     @Override
-    public Optional<StudentResponse> getById(Long id) {
-        return Optional.ofNullable(studentRepository.findById(id)
-                .map(student -> mapper.toDto(student))
-                .orElseThrow(EntityNotFoundException::new));
+    public StudentResponse getById(Long id) {
+        return studentRepository.findById(id)
+                .map(mapper::toDto)
+                .orElseThrow(()-> new StudentNotFoundException(id));
     }
 
     @Override
     public StudentResponse create(StudentRequest studentRequest) {
-        return null;
+        Student student = mapper.toEntity(studentRequest);
+        Student createdStudent = studentRepository.save(student);
+        return mapper.toDto(createdStudent);
     }
 
     @Override
     public StudentResponse update(Long id, StudentRequest studentRequest) {
-        return null;
+        Student student = studentRepository.findById(id)
+                .orElseThrow(()-> new StudentNotFoundException(id));
+
+        student.setName(studentRequest.getName());
+        student.setLastName(studentRequest.getLastName());
+        student.setAge(studentRequest.getAge());
+        student.setCourseId(studentRequest.getCourseId());
+
+        return mapper.toDto(student);
     }
 
     @Override
     public void delete(Long id) {
         studentRepository.findById(id)
                 .ifPresentOrElse(student -> studentRepository.deleteById(id),
-                        EntityNotFoundException::new);
+                        ()-> {
+                            throw new StudentNotFoundException(id);
+                        });
     }
 }
