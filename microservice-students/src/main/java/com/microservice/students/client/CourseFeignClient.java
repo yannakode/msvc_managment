@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @FeignClient(name = "msvc-courses", url = "http://localhost:2222/api/courses/v1")
-public interface ProductFeignClient {
+public interface CourseFeignClient {
 
     @GetMapping
     ResponseEntity<List<Course>> getAllCourses();

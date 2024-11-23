@@ -1,6 +1,6 @@
 package com.microservice.students.service.Impl;
 
-import com.microservice.students.client.ProductFeignClient;
+import com.microservice.students.client.CourseFeignClient;
 import com.microservice.students.exceptions.StudentNotFoundException;
 import com.microservice.students.model.Course;
 import com.microservice.students.model.Student;
@@ -21,12 +21,12 @@ public class StudentServiceImpl implements StudentService {
 
     private final StudentDtoAssembler mapper;
 
-    private final ProductFeignClient productFeignClient;
+    private final CourseFeignClient courseFeignClient;
 
-    public StudentServiceImpl(StudentRepository studentRepository, StudentDtoAssembler mapper, ProductFeignClient productFeignClient) {
+    public StudentServiceImpl(StudentRepository studentRepository, StudentDtoAssembler mapper, CourseFeignClient courseFeignClient) {
         this.studentRepository = studentRepository;
         this.mapper = mapper;
-        this.productFeignClient = productFeignClient;
+        this.courseFeignClient = courseFeignClient;
     }
 
     @Override
@@ -74,7 +74,7 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public StudentsByCourseResponse studentsByCourse(Long courseId) {
-        Course course = productFeignClient.getCourseById(courseId).getBody();
+        Course course = courseFeignClient.getCourseById(courseId).getBody();
         List<StudentResponse> studentsByCourseId = studentRepository.findByCourseId(courseId.toString()).stream()
                 .map(mapper::toDto)
                 .toList();
