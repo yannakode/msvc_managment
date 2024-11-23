@@ -32,17 +32,16 @@ public class CourseController {
 
     @PostMapping
     public ResponseEntity<CourseResponse> createCourse(@RequestBody @Valid CourseRequest courseRequest){
-        System.out.println(courseRequest.getName());
         return ResponseEntity.status(HttpStatus.CREATED).body(courseService.create(courseRequest));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<CourseResponse> updateCourse(@RequestBody Long id, CourseRequest courseRequest){
-        return ResponseEntity.status(HttpStatus.CREATED).body(courseService.update(id, courseRequest));
+    public ResponseEntity<CourseResponse> updateCourse(@PathVariable Long id, @RequestBody @Valid CourseRequest courseRequest){
+        return ResponseEntity.status(HttpStatus.OK).body(courseService.update(id, courseRequest));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> updateCourse(@RequestBody Long id){
+    public ResponseEntity<Void> deleteCourse(@PathVariable Long id){
         courseService.delete(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }

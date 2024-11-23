@@ -14,7 +14,16 @@ public class CourseConstraits {
             new Course(3L, "History")
     );
 
+    public static final List<CourseResponse> COURSES_RESPONSE = Arrays.asList(
+            new CourseResponse("Mathematics"),
+            new CourseResponse("Science"),
+            new CourseResponse("History")
+    );
+
     public static final Course COURSE = new Course(1L, "Mathematics");
     public static final CourseResponse COURSE_RESPONSE = new CourseResponse("Mathematics");
     public static final CourseRequest COURSE_REQUEST = new CourseRequest("Mathematics");
+
+    public static final CourseRequest EMPTY_COURSE_REQUEST = new CourseRequest();
+    public static final CourseRequest INVALID_COURSE_REQUEST = new CourseRequest("");
 }
