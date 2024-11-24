@@ -125,6 +125,7 @@ public class CourseControllerTest {
                         .content(objectMapper.writeValueAsString(INVALID_COURSE_REQUEST)))
                 .andExpect(status().isUnprocessableEntity());
     }
+
     @Test
     public void deleteCourse_WithValidId_ReturnsOk() throws Exception {
         mockMvc.perform(delete("/api/courses/v1/1"))

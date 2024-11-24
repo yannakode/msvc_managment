@@ -12,17 +12,17 @@ import java.util.List;
 public interface CourseFeignClient {
 
     @GetMapping
-    ResponseEntity<List<Course>> getAllCourses();
+    List<Course> getAllCourses();
 
     @GetMapping("/{id}")
-    public ResponseEntity<Course> getCourseById(@PathVariable Long id);
+    public Course getCourseById(@PathVariable Long id);
 
     @PostMapping
     public ResponseEntity<Course> createCourse(@RequestBody @Valid Course course);
 
     @PutMapping("/{id}")
-    public ResponseEntity<Course> updateCourse(@PathVariable Long id, @RequestBody Course course);
+    public Course updateCourse(@PathVariable Long id, @RequestBody Course course);
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteCourse(@PathVariable Long id);
+    public Void deleteCourse(@PathVariable Long id);
 }

@@ -7,7 +7,7 @@ import com.microservice.students.model.dtos.StudentRequest;
 import com.microservice.students.model.dtos.StudentResponse;
 import com.microservice.students.repository.StudentRepository;
 import com.microservice.students.service.Impl.StudentServiceImpl;
-import com.microservice.students.service.assembler.StudentDtoAssembler;
+import com.microservice.students.service.assembler.DtoAssembler;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -17,6 +17,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.List;
 import java.util.Optional;
 
+import static com.microservice.students.commons.CourseConstants.COURSE;
 import static com.microservice.students.commons.StudentConstants.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -29,7 +30,7 @@ public class StudentServiceImplTest {
     private StudentServiceImpl studentService;
 
     @Mock
-    private StudentDtoAssembler mapper;
+    private DtoAssembler mapper;
 
     @Mock
     StudentRepository studentRepository;
@@ -109,5 +110,10 @@ public class StudentServiceImplTest {
 
         assertThrows(StudentNotFoundException.class, ()-> {studentService.delete(1L);});
         verify(studentRepository, times(1)).findById(1L);
+    }
+
+    @Test
+    public void studentsByCourse_WithExistingCourse_ReturnsStudentsByCourse(){
+        when(courseFeignClient.getCourseById(any(Long.class))).thenReturn(COURSE);
     }
 }

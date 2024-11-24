@@ -8,8 +8,9 @@ import com.microservice.students.model.dtos.StudentRequest;
 import com.microservice.students.model.dtos.StudentResponse;
 import com.microservice.students.model.dtos.StudentsByCourseResponse;
 import com.microservice.students.repository.StudentRepository;
+import com.microservice.students.service.CourseService;
 import com.microservice.students.service.StudentService;
-import com.microservice.students.service.assembler.StudentDtoAssembler;
+import com.microservice.students.service.assembler.DtoAssembler;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,14 +20,14 @@ public class StudentServiceImpl implements StudentService {
 
     private final StudentRepository studentRepository;
 
-    private final StudentDtoAssembler mapper;
+    private final DtoAssembler mapper;
 
-    private final CourseFeignClient courseFeignClient;
+    private final CourseService courseService;
 
-    public StudentServiceImpl(StudentRepository studentRepository, StudentDtoAssembler mapper, CourseFeignClient courseFeignClient) {
+    public StudentServiceImpl(StudentRepository studentRepository, DtoAssembler mapper, CourseFeignClient courseFeignClient, CourseService courseService) {
         this.studentRepository = studentRepository;
         this.mapper = mapper;
-        this.courseFeignClient = courseFeignClient;
+        this.courseService = courseService;
     }
 
     @Override
@@ -74,15 +75,18 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public StudentsByCourseResponse studentsByCourse(Long courseId) {
-        Course course = courseFeignClient.getCourseById(courseId).getBody();
+        Course course = courseService.courseById(courseId);
+
         List<StudentResponse> studentsByCourseId = studentRepository.findByCourseId(courseId.toString()).stream()
                 .map(mapper::toDto)
                 .toList();
 
         if(studentsByCourseId.isEmpty()) throw new StudentNotFoundException(courseId);
+
         StudentsByCourseResponse studentsByCourseResponse = new StudentsByCourseResponse();
         studentsByCourseResponse.setCourse(course);
         studentsByCourseResponse.setStudentResponse(studentsByCourseId);
+
         return studentsByCourseResponse;
     }
 }

@@ -27,12 +27,20 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(errors, HttpStatus.UNPROCESSABLE_ENTITY);
     }
 
+    @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(StudentNotFoundException.class)
-    public ResponseEntity<ErrorResponse> handleCourseNotFoundException(StudentNotFoundException ex){
-
+    public ResponseEntity<ErrorResponse> handleStudentNotFoundException(StudentNotFoundException ex){
         ErrorResponse errorResponse = new ErrorResponse(ex.getMessage(), "404", HttpStatus.NOT_FOUND.name());
 
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
                 .body(errorResponse);
+    }
+
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler(CourseNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleCourseNotFoundException(CourseNotFoundException ex){
+        ErrorResponse errorResponse = new ErrorResponse(ex.getMessage(), "404", HttpStatus.NOT_FOUND.name());
+
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
     }
 }
