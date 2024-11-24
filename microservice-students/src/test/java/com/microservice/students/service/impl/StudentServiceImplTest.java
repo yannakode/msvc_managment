@@ -1,6 +1,5 @@
 package com.microservice.students.service.impl;
 
-import com.microservice.students.client.CourseFeignClient;
 import com.microservice.students.exceptions.StudentNotFoundException;
 import com.microservice.students.exceptions.StudentsByCourseNotFoundException;
 import com.microservice.students.model.Student;
