@@ -2,6 +2,7 @@ package com.microservice.students.service.Impl;
 
 import com.microservice.students.client.CourseFeignClient;
 import com.microservice.students.exceptions.StudentNotFoundException;
+import com.microservice.students.exceptions.StudentsByCourseNotFoundException;
 import com.microservice.students.model.Course;
 import com.microservice.students.model.Student;
 import com.microservice.students.model.dtos.StudentRequest;
@@ -81,11 +82,11 @@ public class StudentServiceImpl implements StudentService {
                 .map(mapper::toDto)
                 .toList();
 
-        if(studentsByCourseId.isEmpty()) throw new StudentNotFoundException(courseId);
+        if(studentsByCourseId.isEmpty()) throw new StudentsByCourseNotFoundException(courseId);
 
         StudentsByCourseResponse studentsByCourseResponse = new StudentsByCourseResponse();
         studentsByCourseResponse.setCourse(course);
-        studentsByCourseResponse.setStudentResponse(studentsByCourseId);
+        studentsByCourseResponse.setStudentResponseList(studentsByCourseId);
 
         return studentsByCourseResponse;
     }

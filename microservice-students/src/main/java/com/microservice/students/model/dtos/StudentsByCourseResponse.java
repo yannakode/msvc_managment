@@ -13,5 +13,5 @@ import java.util.List;
 public class StudentsByCourseResponse {
     private Course course;
 
-    private List<StudentResponse> studentResponse;
+    private List<StudentResponse> studentResponseList;
 }

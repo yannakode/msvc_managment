@@ -2,10 +2,13 @@ package com.microservice.students.service.impl;
 
 import com.microservice.students.client.CourseFeignClient;
 import com.microservice.students.exceptions.StudentNotFoundException;
+import com.microservice.students.exceptions.StudentsByCourseNotFoundException;
 import com.microservice.students.model.Student;
 import com.microservice.students.model.dtos.StudentRequest;
 import com.microservice.students.model.dtos.StudentResponse;
+import com.microservice.students.model.dtos.StudentsByCourseResponse;
 import com.microservice.students.repository.StudentRepository;
+import com.microservice.students.service.CourseService;
 import com.microservice.students.service.Impl.StudentServiceImpl;
 import com.microservice.students.service.assembler.DtoAssembler;
 import org.junit.jupiter.api.Test;
@@ -18,6 +21,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static com.microservice.students.commons.CourseConstants.COURSE;
+import static com.microservice.students.commons.CourseConstants.STUDENTS_BY_COURSE_RESPONSE;
 import static com.microservice.students.commons.StudentConstants.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -36,7 +40,7 @@ public class StudentServiceImplTest {
     StudentRepository studentRepository;
 
     @Mock
-    CourseFeignClient courseFeignClient;
+    CourseService courseService;
 
     @Test
     public void getAll_ReturnsCoursesList(){
@@ -114,6 +118,23 @@ public class StudentServiceImplTest {
 
     @Test
     public void studentsByCourse_WithExistingCourse_ReturnsStudentsByCourse(){
-        when(courseFeignClient.getCourseById(any(Long.class))).thenReturn(COURSE);
+        when(courseService.courseById(any(Long.class))).thenReturn(COURSE);
+        when(studentRepository.findByCourseId(any(String.class))).thenReturn(STUDENTS);
+        when(mapper.toDto(any(Student.class))).thenReturn(STUDENT_RESPONSE);
+
+        StudentsByCourseResponse studentsByCourseResponse = studentService.studentsByCourse(1L);
+
+        assertEquals(studentsByCourseResponse.getCourse(), STUDENTS_BY_COURSE_RESPONSE.getCourse());
+        assertEquals(studentsByCourseResponse.getStudentResponseList().get(0).getName(), STUDENTS_RESPONSE.get(0).getName());
+    }
+
+    @Test
+    public void studentsByCourse_WithUnexistingCourse_ReturnsStudentsByCourseNotFoundException(){
+        when(courseService.courseById(any(Long.class))).thenReturn(COURSE);
+        when(studentRepository.findByCourseId(any(String.class)))
+                .thenThrow(StudentsByCourseNotFoundException.class);
+
+        assertThrows(StudentsByCourseNotFoundException.class,
+                ()-> studentService.studentsByCourse(1L));
     }
 }

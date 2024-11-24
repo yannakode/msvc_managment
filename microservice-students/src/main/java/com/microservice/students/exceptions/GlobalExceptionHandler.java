@@ -1,6 +1,7 @@
 package com.microservice.students.exceptions;
 
 import com.microservice.students.model.dtos.ErrorResponse;
+import com.microservice.students.model.dtos.StudentsByCourseResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -30,6 +31,15 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(StudentNotFoundException.class)
     public ResponseEntity<ErrorResponse> handleStudentNotFoundException(StudentNotFoundException ex){
+        ErrorResponse errorResponse = new ErrorResponse(ex.getMessage(), "404", HttpStatus.NOT_FOUND.name());
+
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(errorResponse);
+    }
+
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler(StudentsByCourseNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleStudentNotFoundException(StudentsByCourseNotFoundException ex){
         ErrorResponse errorResponse = new ErrorResponse(ex.getMessage(), "404", HttpStatus.NOT_FOUND.name());
 
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
