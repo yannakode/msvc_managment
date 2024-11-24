@@ -1,11 +1,10 @@
-package com.microservice.students.service;
+package com.microservice.students.services;
 
 import com.microservice.students.model.dtos.StudentRequest;
 import com.microservice.students.model.dtos.StudentResponse;
 import com.microservice.students.model.dtos.StudentsByCourseResponse;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface StudentService {
     List<StudentResponse> getAll();

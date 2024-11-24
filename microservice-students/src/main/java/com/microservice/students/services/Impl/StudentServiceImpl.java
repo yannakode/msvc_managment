@@ -1,4 +1,4 @@
-package com.microservice.students.service.Impl;
+package com.microservice.students.services.Impl;
 
 import com.microservice.students.client.CourseFeignClient;
 import com.microservice.students.exceptions.StudentNotFoundException;
@@ -9,9 +9,9 @@ import com.microservice.students.model.dtos.StudentRequest;
 import com.microservice.students.model.dtos.StudentResponse;
 import com.microservice.students.model.dtos.StudentsByCourseResponse;
 import com.microservice.students.repository.StudentRepository;
-import com.microservice.students.service.CourseService;
-import com.microservice.students.service.StudentService;
-import com.microservice.students.service.assembler.DtoAssembler;
+import com.microservice.students.services.CourseService;
+import com.microservice.students.services.StudentService;
+import com.microservice.students.services.assembler.DtoAssembler;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

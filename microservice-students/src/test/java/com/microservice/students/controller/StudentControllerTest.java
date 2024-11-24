@@ -3,7 +3,7 @@ package com.microservice.students.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.microservice.students.exceptions.StudentNotFoundException;
 import com.microservice.students.model.dtos.StudentRequest;
-import com.microservice.students.service.StudentService;
+import com.microservice.students.services.StudentService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;

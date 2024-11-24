@@ -1,9 +1,9 @@
-package com.microservice.students.service.Impl;
+package com.microservice.students.services.Impl;
 
 import com.microservice.students.client.CourseFeignClient;
 import com.microservice.students.exceptions.CourseNotFoundException;
 import com.microservice.students.model.Course;
-import com.microservice.students.service.CourseService;
+import com.microservice.students.services.CourseService;
 import feign.FeignException;
 import org.springframework.stereotype.Service;
 

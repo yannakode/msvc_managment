@@ -1,4 +1,4 @@
-package com.microservice.students.service;
+package com.microservice.students.services;
 
 import com.microservice.students.model.Course;
 

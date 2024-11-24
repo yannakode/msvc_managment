@@ -1,4 +1,4 @@
-package com.microservice.students.service.assembler;
+package com.microservice.students.services.assembler;
 
 import com.microservice.students.model.Student;
 import com.microservice.students.model.dtos.StudentRequest;

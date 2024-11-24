@@ -3,7 +3,7 @@ package com.microservice.students.controller;
 import com.microservice.students.model.dtos.StudentRequest;
 import com.microservice.students.model.dtos.StudentResponse;
 import com.microservice.students.model.dtos.StudentsByCourseResponse;
-import com.microservice.students.service.StudentService;
+import com.microservice.students.services.StudentService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

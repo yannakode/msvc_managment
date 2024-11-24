@@ -1,4 +1,4 @@
-package com.microservice.students.service.impl;
+package com.microservice.students.services.impl;
 
 import com.microservice.students.exceptions.StudentNotFoundException;
 import com.microservice.students.exceptions.StudentsByCourseNotFoundException;
@@ -7,9 +7,10 @@ import com.microservice.students.model.dtos.StudentRequest;
 import com.microservice.students.model.dtos.StudentResponse;
 import com.microservice.students.model.dtos.StudentsByCourseResponse;
 import com.microservice.students.repository.StudentRepository;
-import com.microservice.students.service.CourseService;
-import com.microservice.students.service.Impl.StudentServiceImpl;
-import com.microservice.students.service.assembler.DtoAssembler;
+import com.microservice.students.services.CourseService;
+import com.microservice.students.services.Impl.StudentServiceImpl;
+import com.microservice.students.services.assembler.DtoAssembler;
+import com.microservice.students.services.assembler.DtoAssemblerTest;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

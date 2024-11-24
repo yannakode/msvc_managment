@@ -1,10 +1,9 @@
-package com.microservice.students.service.impl;
+package com.microservice.students.services.impl;
 
 import com.microservice.students.client.CourseFeignClient;
 import com.microservice.students.exceptions.CourseNotFoundException;
 import com.microservice.students.model.Course;
-import com.microservice.students.service.CourseService;
-import com.microservice.students.service.Impl.CourseServiceImpl;
+import com.microservice.students.services.Impl.CourseServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
