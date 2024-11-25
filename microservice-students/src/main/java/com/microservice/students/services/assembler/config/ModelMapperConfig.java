@@ -1,4 +1,4 @@
-package com.microservice.students.service.assembler.config;
+package com.microservice.students.services.assembler.config;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;

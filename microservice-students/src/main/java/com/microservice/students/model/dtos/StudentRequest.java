@@ -1,9 +1,16 @@
 package com.microservice.students.model.dtos;
 
+import com.microservice.students.model.Course;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+import lombok.*;
 
+@Getter
+@Setter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class StudentRequest {
 
     @NotBlank(message = "Name field cannot be blank or null")

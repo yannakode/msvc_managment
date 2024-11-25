@@ -57,6 +57,6 @@ public class CourseServiceImpl implements CourseService {
     public void delete(Long id) {
         courseRepository.findById(id)
                 .ifPresentOrElse(c -> courseRepository.deleteById(id),
-                        ()-> new CourseNotFoundException(id));
+                        ()-> {throw new CourseNotFoundException(id);});
     }
 }
