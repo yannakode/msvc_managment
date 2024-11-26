@@ -5,4 +5,5 @@ import com.microservice.gateway.models.dtos.UserRequest;
 
 public interface UserService {
     UserEntity createUser(UserRequest userRequest);
+    String authenticateUser(UserRequest userRequest);
 }
