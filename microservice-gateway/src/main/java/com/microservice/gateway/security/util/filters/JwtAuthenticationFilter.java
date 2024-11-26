@@ -1,6 +1,8 @@
 package com.microservice.gateway.security.util.filters;
 
 import com.microservice.gateway.security.util.JwtUtils;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
